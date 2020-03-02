@@ -17,7 +17,10 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ```{r europe}
 library(dplyr)
+library(tidyverse)
 library(sf)
+library(eurostat)
+library(leaflet)
 
 #download geospatial data for NUTS-3 regions
 #euro_nuts3_sf <-
@@ -33,6 +36,9 @@ load("euro_nuts3_sf.Rda")
 DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 
 plot(DKnuts3_sf)
+
+#ggplot with simple features
+ggplot(data=DKnuts3_sf)+geom_sf()
 ```
 ##https://ec.europa.eu/eurostat/web/nuts/background
 ##NUTS 1: major socio-economic regions
