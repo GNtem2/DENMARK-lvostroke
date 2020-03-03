@@ -21,7 +21,7 @@ library(tidyverse)
 library(sf)
 library(eurostat)
 library(leaflet)
-
+library(mapview)
 #download geospatial data for NUTS-3 regions
 #euro_nuts3_sf <-
 # eurostat::get_eurostat_geospatial(output_class = #'sf', resolution = '60', nuts_level = 3) %>%
@@ -35,19 +35,72 @@ load("euro_nuts3_sf.Rda")
 #$denotes end with
 DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 
-plot(DKnuts3_sf)
 
-#ggplot with simple features
-#colour by NUTS
-ggplot(data=DKnuts3_sf,aes(fill=NUTS_NAME))+geom_sf()
-
- 
-
-```
 ##https://ec.europa.eu/eurostat/web/nuts/background
 ##NUTS 1: major socio-economic regions
 ##NUTS 2: basic regions for the application of regional policies
 ##NUTS 3: small regions for specific diagnoses
 
+#geocode using tmaptools free
+#does not need to get key
+#AMH<--geocode_OSM("amager hospital, amager, denmark", as.sf=TRUE)
+#12.6  55.7
+
+#AUH <-geocode_OSM("aarhus university hospital, aarhus, denmark", as.sf=TRUE)
+
+#AUH2<-geocode_OSM("aalborg university hospital, aalborg, denmark", as.sf=TRUE)
+
+#BH<-geocode_OSM("bispebjerg hospital, copenhagen, denmark", as.sf=TRUE)
+
+#FH<-geocode_OSM("frederiksberg hospital, frederiksberg, denmark", as.sf=TRUE)
+
+#GH<-geocode_OSM("gentofte hospital, gentofte, denmark", as.sf=TRUE)
+
+#GH2<-geocode_OSM("glostrup hospital, glostrup, denmark", as.sf=TRUE)
+
+  
+#HH<-geocode_OSM("herlev hospital, herlev, denmark", as.sf=TRUE)
+
+#HH2<-geocode_OSM("hvidovre hospital, hvidovre, denmark", as.sf=TRUE)
+
+#RCH<-geocode_OSM("rigshospitalet hospital, copenhagen, denmark", as.sf=TRUE)
+
+#1 aarhus university hospital, aarhus, denmark 56.16721 10.20261
+#lat_min  lat_max  lon_min  lon_max                  geometry
+#1 56.16122 56.17396 10.18073 10.21308 POINT (10.20261 56.16721
+
+#df<-data.frame(Hosp=c("Amager","Aarhus University","Aalborg University","Bispebjerg","Frederiksberg","Gentofte","Glostrup","Herlev","Hvidovre","Rigshospitalet"),
+               #Latitude=c(55.7,AUH$lat,AUH2$lat,BH$lat,FH$lat, GH$lat,GH2$lat,HH$lat,HH2$lat,RCH$lat),
+               #Lon=c(12.6,AUH$lon,AUH2$lon,BH$lon,FH$lon,GH$lon, GH2$lon,HH$lon,HH2$lon,RCH$lon))
+
+load("DenmarkHosp.Rda")
+
+```
+
+## different types of plotting methods
+```{r plots}
+df$Hosp<-as.factor(df$Hosp)
+pal=colorFactor(topo.colors(9),df$Hosp)
+
+n<-leaflet(data=df) %>%
+  setView(12.6,55.7,8) %>%
+  addTiles() %>%
+  addMarkers(df$Lon, df$Latitude, popup = paste("Hosp=",df$Hosp)) #%>%
+  #addCircles(radius=15000, fillOpacity = .2,fillColor = ~pal(df$Hosp)) #addcircle specify distance
+
+n
+#plot using simple features by region names
+plot(DKnuts3_sf["NUTS_NAME"])
+
+#ggplot with simple features
+#colour by NUTS
+ggplot(data=DKnuts3_sf,aes(fill=NUTS_NAME))+geom_sf()
+
+#plot with mapview for html, using leaflet
+mapview(DKnuts3_sf["NUTS_NAME"]) 
+
+
+
+```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
