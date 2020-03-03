@@ -38,7 +38,11 @@ DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 plot(DKnuts3_sf)
 
 #ggplot with simple features
-ggplot(data=DKnuts3_sf)+geom_sf()
+#colour by NUTS
+ggplot(data=DKnuts3_sf,aes(fill=NUTS_NAME))+geom_sf()
+
+ 
+
 ```
 ##https://ec.europa.eu/eurostat/web/nuts/background
 ##NUTS 1: major socio-economic regions
