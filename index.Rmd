@@ -73,32 +73,48 @@ DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
                #Latitude=c(55.7,AUH$lat,AUH2$lat,BH$lat,FH$lat, GH$lat,GH2$lat,HH$lat,HH2$lat,RCH$lat),
                #Lon=c(12.6,AUH$lon,AUH2$lon,BH$lon,FH$lon,GH$lon, GH2$lon,HH$lon,HH2$lon,RCH$lon))
 
+#load data
 load("DenmarkHosp.Rda")
+
+#convert df into sf object
+df_sf<-st_as_sf(df, 
+        coords = c("Lon","Latitude"),
+        crs=4326)
 
 ```
 
 ## different types of plotting methods
 ```{r plots}
-df$Hosp<-as.factor(df$Hosp)
-pal=colorFactor(topo.colors(9),df$Hosp)
 
-n<-leaflet(data=df) %>%
-  setView(12.6,55.7,8) %>%
-  addTiles() %>%
-  addMarkers(df$Lon, df$Latitude, popup = paste("Hosp=",df$Hosp)) #%>%
-  #addCircles(radius=15000, fillOpacity = .2,fillColor = ~pal(df$Hosp)) #addcircle specify distance
-
-n
+#######################
 #plot using simple features by region names
 plot(DKnuts3_sf["NUTS_NAME"])
 
+
+#######################
 #ggplot with simple features
 #colour by NUTS
 ggplot(data=DKnuts3_sf,aes(fill=NUTS_NAME))+geom_sf()
 
-#plot with mapview for html, using leaflet
-mapview(DKnuts3_sf["NUTS_NAME"]) 
+g<-ggplot() + # set up the framework
+  geom_sf(data=DKnuts3_sf,aes(fill=NUTS_NAME))+
+  #geom_point(data=df_sf,aes(x=Lon, y=Latitude), fill="orange", pch=21, alpha=0.7, size=2)+
+  labs(x="Longitude (WGS84)", y="Latitude", title="Map of Points") + 
+  theme_bw() # change this to sans if it doesn't plot
+g
 
+
+
+#######################
+#plot with mapview for html, using leaflet
+m<-mapview(DKnuts3_sf["NUTS_NAME"]) +
+
+#plot hospital with mapview
+mapview(df_sf)
+m
+######################
+#make pics using mapshot
+mapshot(m, url = paste0(getwd(),file="/denmark_hosp.html"), file = paste0(getwd(), "/denmark_hosp.png"))
 
 
 ```
