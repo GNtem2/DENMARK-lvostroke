@@ -30,10 +30,20 @@ library(mapview)
 
 load("euro_nuts3_sf.Rda")
 
+#download geospatial data for NUTS-2 regions
+#euro_nuts2_sf <-
+# eurostat::get_eurostat_geospatial(output_class = 'sf', resolution = '60', nuts_level = 2) %>%
+# sf::st_transform(crs = 3035)
+#save(euro_nuts2_sf,file="euro_nuts2_sf.Rda")
+
+load("euro_nuts2_sf.Rda")
+
 #Demark = DK
 #^ denotes start with
 #$denotes end with
 DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
+
+DKnuts2_sf<- euro_nuts2_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 
 
 ##https://ec.europa.eu/eurostat/web/nuts/background
@@ -46,32 +56,40 @@ DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 #AMH<--geocode_OSM("amager hospital, amager, denmark", as.sf=TRUE)
 #12.6  55.7
 
-#AUH <-geocode_OSM("aarhus university hospital, aarhus, denmark", as.sf=TRUE)
+#AUH <-geocode_OSM("aarhus university hospital, aarhus, Denmark", as.sf=TRUE)
 
-#AUH2<-geocode_OSM("aalborg university hospital, aalborg, denmark", as.sf=TRUE)
+#ALH<-geocode_OSM("aalborg university hospital, aalborg, Denmark", as.sf=TRUE)
 
-#BH<-geocode_OSM("bispebjerg hospital, copenhagen, denmark", as.sf=TRUE)
+#RHV<-geocode_OSM("Regionshospitalet Holstebro, Denmark", as.sf=TRUE)
 
-#FH<-geocode_OSM("frederiksberg hospital, frederiksberg, denmark", as.sf=TRUE)
+#RHSvejle<-geocode_OSM("Vejle Sygehus, Denmark", as.sf=TRUE) 
 
-#GH<-geocode_OSM("gentofte hospital, gentofte, denmark", as.sf=TRUE)
+#RHSesbjerg<-geocode_OSM("Esbjerg Sygehus, Denmark", as.sf=TRUE)
 
-#GH2<-geocode_OSM("glostrup hospital, glostrup, denmark", as.sf=TRUE)
+#RHSsoenderborg<-geocode_OSM("Soenderborg Sygehus, Denmark") #XY
 
+#OUH<-geocode_OSM("Odense Sygehus, Denmark") #XY
+
+#RUH<-geocode_OSM("Roskilde Sygehus, Denmark") #XY
+
+#RHb<-geocode_OSM("Rigshospitalet blegdamsvej, Denmark") #XY
+
+#RHg<-geocode_OSM("Rigshospitalet Glostrup, Denmark") #XY 
   
-#HH<-geocode_OSM("herlev hospital, herlev, denmark", as.sf=TRUE)
-
-#HH2<-geocode_OSM("hvidovre hospital, hvidovre, denmark", as.sf=TRUE)
-
-#RCH<-geocode_OSM("rigshospitalet hospital, copenhagen, denmark", as.sf=TRUE)
 
 #1 aarhus university hospital, aarhus, denmark 56.16721 10.20261
 #lat_min  lat_max  lon_min  lon_max                  geometry
 #1 56.16122 56.17396 10.18073 10.21308 POINT (10.20261 56.16721
 
-#df<-data.frame(Hosp=c("Amager","Aarhus University","Aalborg University","Bispebjerg","Frederiksberg","Gentofte","Glostrup","Herlev","Hvidovre","Rigshospitalet"),
-               #Latitude=c(55.7,AUH$lat,AUH2$lat,BH$lat,FH$lat, GH$lat,GH2$lat,HH$lat,HH2$lat,RCH$lat),
-               #Lon=c(12.6,AUH$lon,AUH2$lon,BH$lon,FH$lon,GH$lon, GH2$lon,HH$lon,HH2$lon,RCH$lon))
+#y== lat and x==lon
+#df<-data.frame(
+ # Hosp=c("Aarhus University","Aalborg University","Regionshospitalet Holstebro", "Vejle Sygehus",  "Esbjerg Sygehus", "Soenderborg Sygehus", "Odense Sygehus", "Roskilde Sygehus", "Rigshospitalet blegdamsvej", "Rigshospitalet Glostrup"),
+  #  Latitude=c(AUH$lat,ALH$lat,RHV$lat, RHSvejle$lat, RHSesbjerg$lat, RHSsoenderborg$coords[[2]], OUH$coords[[2]], RUH$coords[[2]], RHb$coords[[2]], RHg$coords[[2]]),
+   # Lon=c(AUH$lon,ALH$lon,RHV$lon, RHSvejle$lon, RHSesbjerg$lon, RHSsoenderborg$coords[[1]], OUH$coords[[1]], RUH$coords[[1]], RHb$coords[[1]], RHg$coords[[1]]),
+  #Center=c("CSC", "PSC", "PSC", "PSC", "PSC", "PSC", "CSC", "PSC","CSC", "PSC"))
+
+
+#save(df,file="DenmarkHosp.Rda")
 
 #load data
 load("DenmarkHosp.Rda")
@@ -88,16 +106,16 @@ df_sf<-st_as_sf(df,
 
 #######################
 #plot using simple features by region names
-plot(DKnuts3_sf["NUTS_NAME"])
+plot(DKnuts2_sf["NUTS_NAME"])
 
 
 #######################
 #ggplot with simple features
 #colour by NUTS
-ggplot(data=DKnuts3_sf,aes(fill=NUTS_NAME))+geom_sf()
+ggplot(data=DKnuts2_sf,aes(fill=NUTS_NAME))+geom_sf()
 
 g<-ggplot() + # set up the framework
-  geom_sf(data=DKnuts3_sf,aes(fill=NUTS_NAME))+
+  geom_sf(data=DKnuts2_sf,aes(fill=NUTS_NAME))+
   #geom_point(data=df_sf,aes(x=Lon, y=Latitude), fill="orange", pch=21, alpha=0.7, size=2)+
   labs(x="Longitude (WGS84)", y="Latitude", title="Map of Points") + 
   theme_bw() # change this to sans if it doesn't plot
@@ -107,7 +125,7 @@ g
 
 #######################
 #plot with mapview for html, using leaflet
-m<-mapview(DKnuts3_sf["NUTS_NAME"]) +
+m<-mapview(DKnuts2_sf["NUTS_NAME"]) +
 
 #plot hospital with mapview
 mapview(df_sf)
@@ -118,5 +136,61 @@ mapshot(m, url = paste0(getwd(),file="/denmark_hosp.html"), file = paste0(getwd(
 
 
 ```
+```{r dogr}
+#https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/communes
+#shapefile for europe
+#use sf
+#europeBN<-st_read("./COMM-01M-2013-SH/COMM_01M_2013_SH/data/COMM_BN_01M_2013.shp")
+
+
+#########
+#europeLB<-st_read("./COMM-01M-2013-SH/COMM_01M_2013_SH/data/COMM_LB_2013.shp")
+
+#filter starts with DK
+#europeLBDK<-europeLB %>% filter(str_detect(COMM_ID,"^DK"))
+
+#save(europeLBDK,file="europeLBDK.Rda")
+load("europeLBDK.Rda")
+#######
+
+#europeRG<-st_read("./COMM-01M-2013-SH/COMM_01M_2013_SH/data/COMM_RG_01M_2013.shp")
+
+
+#europeRGDK<-europeRG %>% filter(str_detect(COMM_ID,"^DK"))
+#save(europeRGDK,file="europeRGDK.Rda")
+load("europeRGDK.Rda")
+mapview(europeRGDK["Shape_Area"])
+```
+##convert pdf file to xcel file using pdftables
+##extract data from xcel file
+##errors occurred in conversion with Danish names 
+```{r extraction}
+dk<-read.csv("denmarkstrokepdf.csv")
+
+#extract only data on large regions=NUTS2
+dk2<-dk[c(4:8),]
+
+#clean up column X.1 containing stroke data
+#remove numerator before back slash
+#https://github.com/STAT545-UBC/Discussion/issues/394
+
+#remove number before slash sign
+#then remove slash sign
+dk2$strokenum<-str_replace(dk2$X.1,"[0-9]*","") %>%
+  str_replace("/","\\")
+
+dk2$Uoplyst<-str_replace(dk2$Uoplyst,"SjÃ¦lland","Sjælland")
+```
+
+```{r combine}
+#merge sf file for DK nuts2 with stroke number
+DKnuts2_sf2<-right_join(DKnuts2_sf,dk2,by=c("NUTS_NAME"="Uoplyst"))
+
+mapview(DKnuts2_sf2["strokenum"])
+
+```
+
+
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
