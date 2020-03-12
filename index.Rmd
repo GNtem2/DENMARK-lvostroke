@@ -28,7 +28,7 @@ library(mapview)
 # sf::st_transform(crs = 3035)
 #save(euro_nuts3_sf,file="euro_nuts3_sf.Rda")
 
-load("euro_nuts3_sf.Rda")
+#load("euro_nuts3_sf.Rda")
 
 #download geospatial data for NUTS-2 regions
 #euro_nuts2_sf <-
@@ -41,7 +41,7 @@ load("euro_nuts2_sf.Rda")
 #Demark = DK
 #^ denotes start with
 #$denotes end with
-DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
+#DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 
 DKnuts2_sf<- euro_nuts2_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 
@@ -132,7 +132,7 @@ mapview(df_sf)
 m
 ######################
 #make pics using mapshot
-mapshot(m, url = paste0(getwd(),file="/denmark_hosp.html"), file = paste0(getwd(), "/denmark_hosp.png"))
+#mapshot(m, url = paste0(getwd(),file="/denmark_hosp.html"), file = paste0(getwd(), "/denmark_hosp.png"))
 
 
 ```
@@ -160,6 +160,8 @@ load("europeLBDK.Rda")
 #save(europeRGDK,file="europeRGDK.Rda")
 load("europeRGDK.Rda")
 mapview(europeRGDK["Shape_Area"])
+
+
 ```
 ##convert pdf file to xcel file using pdftables
 ##extract data from xcel file
@@ -186,7 +188,14 @@ dk2$Uoplyst<-str_replace(dk2$Uoplyst,"SjÃ¦lland","Sjælland")
 #merge sf file for DK nuts2 with stroke number
 DKnuts2_sf2<-right_join(DKnuts2_sf,dk2,by=c("NUTS_NAME"="Uoplyst"))
 
-mapview(DKnuts2_sf2["strokenum"])
+#add hospital location data to mapview using+
+n<-mapview(DKnuts2_sf2["strokenum"])+df_sf
+
+#make pics using mapshot
+mapshot(n, url = paste0(getwd(),file="/denmark_stroke_nuts2.html"), file = paste0(getwd(), "/denmark_stroke_nuts2.png"))
+
+n
+
 
 ```
 
