@@ -8,6 +8,6 @@ The data for the hospitals in demark contains comprehensive stroke unit (CSC) an
 
 The map below contains data on number of stroke in 2018 within each NUTS2 region and 30 mkm catchment of each hospital.
 
-[!denmark stroke hospital](./denmark_stroke_nuts2_catchment.png)](./denmark_stroke_nuts2_catchment.html)
+[![denmark stroke hospital](./denmark_stroke_nuts2_catchment.png)](./denmark_stroke_nuts2_catchment.html)
 
 
