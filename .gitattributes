@@ -1,0 +1,6 @@
+*.R     text
+*.Rmd   text
+*.html  text
+*.md    text
+*.csv   text
+*.Rproj text
