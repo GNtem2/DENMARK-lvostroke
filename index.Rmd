@@ -41,14 +41,14 @@ library(tmaptools)
 # eurostat::get_eurostat_geospatial(output_class = 'sf', resolution = '60', nuts_level = 2) %>%
 # sf::st_transform(crs = 3035)
 #save(euro_nuts2_sf,file="euro_nuts2_sf.Rda")
-load("euro_nuts2_sf.Rda")
+load("euro_nuts3_sf.Rda")
 
 #Demark = DK
 #^ denotes start with
 #$denotes end with
 #DKnuts3_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 
-DKnuts2_sf<- euro_nuts2_sf%>% filter(str_detect(NUTS_ID,"^DK"))
+DKnuts2_sf<- euro_nuts3_sf%>% filter(str_detect(NUTS_ID,"^DK"))
 
 ##https://ec.europa.eu/eurostat/web/nuts/background
 ##NUTS 1: major socio-economic regions
@@ -211,7 +211,7 @@ StrokeHosp <- filter(europeRGDK,
 
 p<-mapview(StrokeHosp,map.type="OpenStreetMap.HOT", alpha.regions=0.5)+mapview(HospLocations, zcol="Center")+mapview(DKnuts2_sf2["strokenum"])
 p
-mapshot(p, url = paste0(getwd(),file="/denmark_stroke_nuts2_catchment.html"), file = paste0(getwd(), "/denmark_stroke_nuts2_catchment.png"))
+mapshot(p, url = file.path(getwd(),file="/denmark_stroke_nuts2_catchment.html"), file = file.path(getwd(), "/denmark_stroke_nuts2_catchment.png"))
 
 ```
 
