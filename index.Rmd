@@ -81,6 +81,14 @@ load("europeRGDK.Rda")
 
 #save(HospLocations,file="HospLocations.Rda")
 load("HospLocations.Rda")
+
+#helicopter df
+load("DenmarkHelicopter.Rda")
+
+dfhelicopter<-st_as_sf(df,
+    coords = c("Lon","Latitude"),
+      crs=4326)
+  
 ```
 
 ## different types of plotting methods
@@ -160,12 +168,16 @@ DKnuts2_sf2<-right_join(DKnuts2_sf,dk2,by=c("NUTS_NAME"="Uoplyst"))
 
 #add hospital location data to mapview using+
 #label different types of hospitals
-n<-mapview(DKnuts2_sf2["strokenum"])+mapview(HospLocations, zcol="Center")
+#n<-mapview(DKnuts2_sf2["strokenum"])+mapview(HospLocations, zcol="Center")
+
+#include helicopter data
+n<-mapview(DKnuts2_sf2["strokenum"])+mapview(dfhelicopter, zcol="Center")
 
 #make pics using mapshot
 mapshot(n, url = paste0(getwd(),file="/denmark_stroke_nuts2.html"), file = paste0(getwd(), "/denmark_stroke_nuts2.png"))
 
 n
+
 
 
 ```
