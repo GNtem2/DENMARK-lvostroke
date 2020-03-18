@@ -223,29 +223,31 @@ StrokeHosp <- filter(europeRGDK,
 
 p<-mapview(StrokeHosp,map.type="OpenStreetMap.HOT", alpha.regions=0.5)+mapview(HospLocations, zcol="Center")+mapview(DKnuts2_sf2["strokenum"])
 p
-mapshot(p, url = paste0(getwd(),file="/denmark_stroke_nuts2_catchment.html"), file = paste0(getwd(), "/denmark_stroke_nuts2_catchment.png"))
+mapshot(p, url = paste0(getwd(),file="denmark_stroke_nuts2_catchment.html"), file = paste0(getwd(), "/denmark_stroke_nuts2_catchment.png"))
 
 ```
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-``` R
+```{r helicopter} 
+if (file.exists("HeliLocations.Rda")) {
+  load("HeliLocations.Rda")
+} else {
 #geocode helicopter addresses using tmaptools free
 #does not need to get key like google maps api
-#heli_addresses <- c(AalborgHeli = "ny lufthavnsvej 100, 9400 N?rresundby, #Denmark", SkiveHeli = "Killesmosevej 1, 7800 Skive, Denmark",       #BillundHeli = "Firh?jevej 20, 7190 Billund, Denmark", RingstedHeli = #"Haslevvej 56, 4100 Ringsted, Denmark")
+heli_addresses <- c(AalborgHeli = "ny lufthavnsvej 100, 9400 N?rresundby, Denmark", 
+                    SkiveHeli = "Killesmosevej 1, 7800 Skive, Denmark", 
+                    BillundHeli = "Firh?jevej 20, 7190 Billund, Denmark", 
+                    RingstedHeli = "Haslevvej 56, 4100 Ringsted, Denmark")
 
-#HeliLocations <- tmaptools::geocode_OSM(heli_addresses, as.sf=TRUE)
+HeliLocations <- tmaptools::geocode_OSM(heli_addresses, as.sf=TRUE)
 
-#HeliLocations <- sf::st_transform(HeliLocations,
-           #sf::st_crs(europeRGDK))
+HeliLocations <- sf::st_transform(HeliLocations,
+           sf::st_crs(europeRGDK))
 
 
-#save(HeliLocations,file="HeliLocations.Rda")
-load("HeliLocations.Rda")
-
-#helicopter df
-#load("DenmarkHelicopter.Rda") 
-#Estimat distance from each kommune to helicopter
+save(HeliLocations,file="HeliLocations.Rda")
+}
 
 #determine distance helicopter to centroid
 dist_to_loc_Heli <- function (geometry, location){
