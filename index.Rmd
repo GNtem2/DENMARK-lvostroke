@@ -229,3 +229,49 @@ mapshot(p, url = paste0(getwd(),file="/denmark_stroke_nuts2_catchment.html"), fi
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#geocode helicopter addresses using tmaptools free
+#does not need to get key like google maps api
+#heli_addresses <- c(AalborgHeli = "ny lufthavnsvej 100, 9400 Nørresundby, #Denmark", SkiveHeli = "Killesmosevej 1, 7800 Skive, Denmark",       #BillundHeli = "Firhøjevej 20, 7190 Billund, Denmark", RingstedHeli = #"Haslevvej 56, 4100 Ringsted, Denmark")
+
+#HeliLocations <- tmaptools::geocode_OSM(heli_addresses, as.sf=TRUE)
+
+#HeliLocations <- sf::st_transform(HeliLocations,
+           #sf::st_crs(europeRGDK))
+
+
+#save(HeliLocations,file="HeliLocations.Rda")
+load("HeliLocations.Rda")
+
+#helicopter df
+#load("DenmarkHelicopter.Rda") 
+#Estimat distance from each kommune to helicopter
+
+#determine distance helicopter to centroid
+dist_to_loc_Heli <- function (geometry, location){
+    units::set_units(st_distance(st_centroid (geometry), location)[,1], km)
+}
+#set distance 10 km
+#change to 200 km
+dist_range <- units::set_units(200, km)
+
+
+##
+europeRGDK <- mutate(europeRGDK,
+       DirectDistanceToAalborgHeli = dist_to_loc(geometry,HeliLocations["AalborgHeli", ]),
+       DirectDistanceToSkiveHeli     = dist_to_loc(geometry,HeliLocations["SkiveHeli", ]),
+       DirectDistanceToBillundHeli     = dist_to_loc(geometry,HeliLocations["BillundHeli", ]),
+       DirectDistanceToRingstedHeli     = dist_to_loc(geometry,HeliLocations["RingstedHeli", ]),
+              #
+       DirectDistanceToNearestHeli   = pmin(DirectDistanceToAalborgHeli,           DirectDistanceToSkiveHeli, DirectDistanceToBillundHeli,                           DirectDistanceToRingstedHeli))
+
+#reduce from 2178 communes to 992
+StrokeHeli <- filter(europeRGDK,
+                                 DirectDistanceToNearestHeli < dist_range) %>%
+        mutate(Postcode = as.numeric(COMM_ID)) %>%
+        select(-starts_with("DK"))
+
+
+p<-mapview(StrokeHeli,map.type="OpenStreetMap.HOT", alpha.regions=0.5)+mapview(HeliLocations)+mapview(DKnuts2_sf2["strokenum"])
+p
+mapshot(p, url = paste0(getwd(),file="/denmark_stroke_nuts2_catchment.html"), file = paste0(getwd(), "/denmark_stroke_nuts2_catchment.png"))
