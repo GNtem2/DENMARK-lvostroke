@@ -235,9 +235,9 @@ if (file.exists("HeliLocations.Rda")) {
 } else {
 #geocode helicopter addresses using tmaptools free
 #does not need to get key like google maps api
-heli_addresses <- c(AalborgHeli = "ny lufthavnsvej 100, 9400 N?rresundby, Denmark", 
+heli_addresses <- c(AalborgHeli = "ny lufthavnsvej 100, 9400 Nørresundby, Denmark", 
                     SkiveHeli = "Killesmosevej 1, 7800 Skive, Denmark", 
-                    BillundHeli = "Firh?jevej 20, 7190 Billund, Denmark", 
+                    BillundHeli = "Firhøjevej 20, 7190 Billund, Denmark", 
                     RingstedHeli = "Haslevvej 56, 4100 Ringsted, Denmark")
 
 HeliLocations <- tmaptools::geocode_OSM(heli_addresses, as.sf=TRUE)
