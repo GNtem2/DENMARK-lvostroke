@@ -13,11 +13,11 @@ The Danish address registry is available at https://eng.sdfe.dk/product-and-serv
 Hospital data:
 The data for the hospitals in demark (HospLocations.Rda) contains comprehensive stroke unit (CSC) and primary stroke centre (PSC). 
 
-Helicopter
+Helicopter:
 The data for the helicopter locations are available in HeliLocations.Rda.
 
-Stroke frequency
-The stroke frequency data is obtained from Dansk Apopleksiregister Årsrapport 2018. Converting the data from pdf to xcel format can be difficult due to the use of Danish characters. This is done using excalibur-py. see the file pdftables.R. There are 2 xcel files one is labelled 4669_dap_aasrapport.xlsx and denmarkstrokepdf.csv
+Stroke frequency:
+The stroke frequency data is obtained from Dansk Apopleksiregister Årsrapport 2018. Converting the data from pdf to xcel format can be difficult due to the use of Danish characters. This is done using excalibur-py. see the file pdftables.R. There are 2 xcel files: one is labelled 4669_dap_aasrapport.xlsx and denmarkstrokepdf.csv.
 
 [![denmark hospital](./denmark_stroke_nuts2.png)](./denmark_stroke_nuts2.html)
 
