@@ -1,6 +1,10 @@
 # DENMARK-lvostroke
 This is a documentation of the progress for the project
-It uses the following packages: eurostat, dplyr, sf and mapview. Mapview provides interactive map view using leaflet. The geocoding of the hospital is performed using geocode_OSM function from tmaptools. This project is written with codes adapted from https://richardbeare.github.io/GeospatialStroke/. Click the edit button to see the codes for creating this web page. 
+It uses the following packages: eurostat, dplyr, sf and mapview. Mapview provides interactive map view using leaflet. The geocoding of the hospital is performed using geocode_OSM function from tmaptools. 
+
+Codes: 
+This project is written with codes adapted from https://richardbeare.github.io/GeospatialStroke/. 
+
 Population data: 
 Data on population in Denmark can be obtained at this link. https://www.statbank.dk/INDAMP01. 
 
@@ -17,7 +21,13 @@ Helicopter:
 The data for the helicopter locations are available in HeliLocations.Rda.
 
 Stroke frequency:
-The stroke frequency data is obtained from Dansk Apopleksiregister Årsrapport 2018. Converting the data from pdf to xcel format can be difficult due to the use of Danish characters. This is done using excalibur-py. see the file pdftables.R. There are 2 xcel files: one is labelled 4669_dap_aasrapport.xlsx and denmarkstrokepdf.csv.
+The stroke frequency data is obtained from Dansk Apopleksiregister Årsrapport 2018. Converting the data from pdf to xcel format can be difficult due to the use of Danish characters. This is done using excalibur-py. see the file pdftables.R. There are 2 xcel files: one is labelled 4669_dap_aasrapport.xlsx and denmarkstrokepdf.csv. The denmarkstrokepdf.csv has been edited with regards to Dabish characters.
+
+Street network
+This file streetnetwork.R is still under development.
+
+Google Maps API
+plan to sample 50 random addresses from each kommune.
 
 [![denmark hospital](./denmark_stroke_nuts2.png)](./denmark_stroke_nuts2.html)
 
