@@ -23,10 +23,10 @@ The data for the helicopter locations are available in HeliLocations.Rda.
 Stroke frequency:
 The stroke frequency data is obtained from Dansk Apopleksiregister Årsrapport 2018. Converting the data from pdf to xcel format can be difficult due to the use of Danish characters. This is done using excalibur-py. see the file pdftables.R. There are 2 xcel files: one is labelled 4669_dap_aasrapport.xlsx and denmarkstrokepdf.csv. The denmarkstrokepdf.csv has been edited with regards to Dabish characters.
 
-Street network
+Street network:
 This file streetnetwork.R is still under development.
 
-Google Maps API
+Google Maps API:
 plan to sample 50 random addresses from each kommune.
 
 [![denmark hospital](./denmark_stroke_nuts2.png)](./denmark_stroke_nuts2.html)
