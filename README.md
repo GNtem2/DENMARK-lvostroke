@@ -6,7 +6,7 @@ Codes:
 This project is written with codes adapted from https://richardbeare.github.io/GeospatialStroke/. 
 
 Population data: 
-Data on population in Denmark can be obtained at this link. https://www.statbank.dk/INDAMP01. 
+Data on population in Denmark can be obtained at this link. https://www.statbank.dk/INDAMP01. The statbank population data is not in tidy data format as it is collected with one row for each kommune follow by a line for total population, a line below for men and a line below for women.
 
 Shapefile: 
 The shapefile for the NUTS2 and NUTS3 can be obtained from eurostat package in R. The shapefile from the 99 kommune can be obtained at this site https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/communes. 
