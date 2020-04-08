@@ -1,6 +1,6 @@
 *.R     text
 *.Rmd   text
-*.html  eol=crlf
+*.html  eol=input
 *.md    text
 *.csv   text
 *.Rproj text
