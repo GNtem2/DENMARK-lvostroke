@@ -35,4 +35,5 @@ The map below contains data on number of stroke in 2018 within each NUTS2 region
 
 [![denmark stroke hospital](./denmark_stroke_nuts2_catchment.png)](./denmark_stroke_nuts2_catchment.html)
 
-
+First view of catchment of CSC hospitals
+![here](./CSC_morning.png)
